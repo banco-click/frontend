@@ -1,3 +1,4 @@
+
 <div fxLayoutAlign="center center" fxFlexFill class="main-div">
     <mat-card fxFlex="90%">
         <mat-toolbar color="primary">Cadastro novo usuário</mat-toolbar>
@@ -30,7 +31,7 @@
 
             <mat-form-field>
                 <input matInput formControlName="passwordConfirmation" #passwordConfirmationInput type="password" 
-                    placeholder="Confirmação de Senha" maxlength="20" [errorStateMatcher]="validParentMatcher">
+                    placeholder="Confirmação de Senha" maxlength="20" [errorStateMatcher]="globalFormValidator">
                 <mat-error *ngIf="signUpForm.errors?.passwordEqual">A senha está diferente</mat-error>
                 <mat-error *ngIf="signUpForm.get('passwordConfirmation')?.invalid">{{getErrorMessage('passwordConfirmation')}}</mat-error>
                 <mat-hint align="end">{{passwordConfirmationInput.value?.length || 0}}/20</mat-hint>

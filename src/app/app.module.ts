@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
 import { MainModule } from './main/main.module';
-
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,8 @@ import { MainModule } from './main/main.module';
     HttpClientModule,
     CoreModule,
     HomeModule,
-    MainModule
+    MainModule,
+    UserModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,29 +1,32 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { ValidParentMatcher } from "./custom-validators";
+import { emailValidator } from "../../shared/validator/email.validator";
+import { GlobalFormValidator } from './global-form-validators';
 import { PasswordEqual } from './password-equal.validator';
 import { Signup } from './signup.model';
 import { SignupService } from "./signup.service";
-
+import { UserNotExistValidatorService } from "./user-not-exist.validator.service";
 
 @Component({
     selector: 'app-signup',
     templateUrl: './signup.component.html',
-    styleUrls: ['./signup.component.css']
+    styleUrls: ['./signup.component.css'],
+    providers: [UserNotExistValidatorService]
 })
 export class SignupComponent implements OnInit {
 
     signUpForm!: FormGroup;
 
-    validParentMatcher = new ValidParentMatcher();
+    globalFormValidator = new GlobalFormValidator();
 
     @ViewChild('usernameInput') usernameInput!: ElementRef<HTMLInputElement>;
 
     constructor(
         private formBuilder: FormBuilder,
         private signupService: SignupService,
-        private router: Router) {
+        private router: Router,
+        private userNotExistValidatorService: UserNotExistValidatorService) {
     }
 
     ngOnInit(): void {
@@ -34,11 +37,14 @@ export class SignupComponent implements OnInit {
             ],
             email: [
                 '',
-                [Validators.required, Validators.email, Validators.minLength(3)]
+                [Validators.required, emailValidator, Validators.minLength(3)]
             ],
             username: [
                 '',
-                [Validators.required, Validators.minLength(3)]
+                [
+                    Validators.required, Validators.minLength(3)
+                ]
+                // ,this.userNotExistValidatorService.checkUserNameExists()
             ],
             password: [
                 '',
@@ -46,7 +52,7 @@ export class SignupComponent implements OnInit {
             ],
             passwordConfirmation: [
                 '',
-                [Validators.required]                
+                [Validators.required]
             ]
         }, {
             validators: [PasswordEqual.validate]
@@ -80,15 +86,15 @@ export class SignupComponent implements OnInit {
             return 'Campo obrigatório';
         }
 
-        if (this.signUpForm.get(field)?.hasError('email')) {
-            return 'Informe email no formato seuemail@provedor';
+        if (this.signUpForm.get(field)?.hasError('emailValidator')) {
+            return 'Informe email no formato seuemail@provedor.xxx';
         }
 
         if (this.signUpForm.get(field)?.hasError('minlength')) {
             return `Tamanho mínimo ${this.signUpForm.get(field)?.errors?.minlength.requiredLength}`;
         }
 
-        if (this.signUpForm.get(field)?.hasError('usernameTaken')) {
+        if (this.signUpForm.get(field)?.hasError('userNameExists')) {
             return 'Usuário já existente, por favor escolha outro';
         }
 

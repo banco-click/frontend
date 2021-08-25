@@ -15,4 +15,8 @@ export class SignupService {
     return this.httpClient.post(`${environment.apiUrl}/usuario/`, signup);
   }
 
+  checkUserNameExists(username: string): Observable<any> {
+    return this.httpClient.get(`${environment.apiUrl}/usuario/existe/${username}`);
+  }
+
 }

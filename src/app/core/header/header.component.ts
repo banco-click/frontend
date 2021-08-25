@@ -29,4 +29,8 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  editUser(): void {
+    this.router.navigate(['edit']);
+  }
+
 }
