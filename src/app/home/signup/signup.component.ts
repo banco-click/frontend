@@ -43,8 +43,8 @@ export class SignupComponent implements OnInit {
                 '',
                 [
                     Validators.required, Validators.minLength(3)
-                ]
-                // ,this.userNotExistValidatorService.checkUserNameExists()
+                ],
+                this.userNotExistValidatorService.checkUserNameExists()
             ],
             password: [
                 '',

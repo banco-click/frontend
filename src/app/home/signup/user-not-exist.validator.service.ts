@@ -18,7 +18,17 @@ export class UserNotExistValidatorService {
                 .pipe(switchMap(username => {                    
                     return this.signupService.checkUserNameExists(username?.toLowerCase().trim());
                 }))
-                .pipe(map(usuarioExiste => usuarioExiste ? { userNameExists: true } : null))
+                .pipe(map(res => {
+                    if (res) {
+                        if (res.usuarioExiste) {
+                            return { userNameExists: true }
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        return null;
+                    }
+                }))
                 .pipe(first());
         }
     }
