@@ -2,8 +2,9 @@ import { Injectable } from "@angular/core";
 import jwt_decode from 'jwt-decode';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TokenService } from '../token/token.service';
-import { UserService } from './../user/user.service';
+import { UserService } from '../../shared/service/user/user.service';
 import { UserAuth } from './user-auth';
+import { User } from "src/app/shared/service/user/user";
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ import { UserAuth } from './user-auth';
 export class UserAuthService {
 
     private userSubject = new BehaviorSubject<UserAuth | null>(null);
+    userAuth!: UserAuth;
 
     constructor(
         private tokenService: TokenService,
@@ -32,11 +34,11 @@ export class UserAuthService {
     private decodeAndNotify(): void {
         const token = this.tokenService.getToken();
         if (token) {
-            const userAuth = jwt_decode(token) as UserAuth;
-            this.userService.get(userAuth.user_id)
+            this.userAuth = jwt_decode(token) as UserAuth;
+            this.userService.get(this.userAuth.user_id)
                 .subscribe(user => {
-                    userAuth.user = user;
-                    this.userSubject.next(userAuth);
+                    this.userAuth.user = user;
+                    this.userSubject.next(this.userAuth);
                 });
         }
     }
@@ -48,6 +50,11 @@ export class UserAuthService {
 
     isLogged(): boolean {
         return this.tokenService.hasToken();
+    }
+
+    updateUser(user: User): void {
+        this.userAuth.user = user;
+        this.userSubject.next(this.userAuth);
     }
 
 }

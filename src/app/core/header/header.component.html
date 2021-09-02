@@ -17,7 +17,7 @@
     </button>
   </mat-menu>
   <ng-template #leftArea><span></span></ng-template>
-  <span>Banco Click</span>
+  <a mat-button routerLink="main" class="logo">Banco Click</a>
   <button mat-icon-button (click)="logout()" *ngIf="userAuth; else rightArea">
     <mat-icon>exit_to_app</mat-icon>
   </button>

@@ -1,4 +1,4 @@
-import { User } from './../user/user';
+import { User } from '../../shared/service/user/user';
 
 export interface UserAuth {    
     user_id: number;

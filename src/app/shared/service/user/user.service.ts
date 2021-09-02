@@ -14,5 +14,9 @@ export class UserService {
     get(id: number): Observable<User> {
         return this.httpClient.get<User>(`${API}/${id}/`);
     }
+    
+    updateEmail(id: number, email: string): Observable<User> {
+        return this.httpClient.patch<User>(`${API}/${id}/`, {email});
+    }
 
 }

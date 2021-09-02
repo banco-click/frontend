@@ -1,1 +1,23 @@
-<p>user-edit works!</p>
+<div fxLayoutAlign="center center" fxFlexFill class="main-div">
+    <mat-card fxFlex="90%" *ngIf="allowEdit">
+        <mat-toolbar color="primary">Alteração de dados</mat-toolbar>
+        <form fxLayoutAlign="stretch" fxLayout="column" class="login-form" [formGroup]="editForm" (ngSubmit)="edit()" class="formularioEdit">
+
+            <mat-form-field>
+                <input matInput placeholder="Nome" [value]="user?.name" name="name" disabled>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Usuário para login" [value]="user?.username" name="username" disabled>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput formControlName="email" #emailInput placeholder="email" maxlength="60">
+                <mat-error *ngIf="editForm.get('email')?.invalid">{{getErrorMessage('email')}}</mat-error>
+                <mat-hint align="end">{{emailInput.value?.length || 0}}/60</mat-hint>
+            </mat-form-field>
+
+            <button [disabled]="editForm.invalid" mat-raised-button type="submit" color="primary">Atualize</button>
+        </form>
+    </mat-card>
+</div>
